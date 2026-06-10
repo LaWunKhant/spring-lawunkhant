@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation Screen</title>
+</head>
+<body>
+    <h2>Submitted Confirmation Data</h2>
+    <p th:text="'名前：' + ${userName}"></p>
+    <p th:text="'出身：' + ${comeFrom}"></p>
+    <p th:text="'年齢：' + ${age} != null ? ${age} : '未入力'"></p>
+    
+    <p th:text="'点数：' + ${score} + '点'"></p>
+    <p th:text="${resultMessage}" style="font-weight: bold; color: #e74c3c; font-size: 1.2em;"></p>
+    
+    <br>
+    <a th:href="@{/manual/index}">Back to Form</a>
+</body>
+</html>

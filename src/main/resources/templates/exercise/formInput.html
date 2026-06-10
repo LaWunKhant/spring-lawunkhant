@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise Input Form</title>
+</head>
+<body>
+    <h2>Form Object Binding Exercise</h2>
+    <form th:action="@{/manual/exercise/confirm}" th:object="${customForm}" method="post">
+        <div>
+            <label>タイトル:</label>
+            <input type="text" th:field="*{title}" required />
+        </div>
+        <br>
+        <div>
+            <label>カテゴリ:</label>
+            <select th:field="*{category}">
+                <option value="Technical">Technical</option>
+                <option value="Personal">Personal</option>
+                <option value="Business">Business</option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <label>内容:</label><br>
+            <textarea th:field="*{content}" rows="4" cols="40" required></textarea>
+        </div>
+        <br>
+        <button type="submit">Submit Form Class</button>
+    </form>
+</body>
+</html>

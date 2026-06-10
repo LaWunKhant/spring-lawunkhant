@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual Input Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h2>User Information Input</h2>
+    <form th:action="@{/manual/check}" method="post">
+        <ul>
+            <li>名前： <input class="formParts" type="text" name="userName" required></li>
+            <li>出身： <input class="formParts" type="text" name="comeFrom" required></li>
+            <li>年齢： <input class="formParts" type="text" name="age"></li>
+            <li>点数： <input class="formParts" type="text" name="score" required></li>
+        </ul>
+        <button type="submit" class="button">Submit</button>
+    </form>
+</body>
+</html>

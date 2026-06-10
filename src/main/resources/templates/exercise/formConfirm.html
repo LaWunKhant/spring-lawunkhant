@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise Confirmation Screen</title>
+</head>
+<body>
+    <h2>Form Class Confirmation Output</h2>
+    
+    <div th:object="${customForm}">
+        <p><strong>タイトル:</strong> <span th:text="*{title}"></span></p>
+        <p><strong>カテゴリ:</strong> <span th:text="*{category}"></span></p>
+        <p><strong>内容:</strong></p>
+        <pre th:text="*{content}"></pre>
+    </div>
+
+    <br>
+    <a th:href="@{/manual/exercise/form}">Back to Registration Form</a>
+</body>
+</html>
