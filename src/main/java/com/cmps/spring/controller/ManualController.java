@@ -84,4 +84,4 @@ public class ManualController {
         model.addAttribute("customForm", form);
         return "exercise/formConfirm"; // Points to src/main/resources/templates/exercise/formConfirm.html
     }
-}
+}	
