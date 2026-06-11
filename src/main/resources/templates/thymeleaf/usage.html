@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Thymeleafの様々な使い方</title>
+</head>
+<body>
+	<div class="contents">
+	<!-- 以下に追記します -->
+	<h2> Javaのインスタンスやメソッドもそのまま使用可能</h2>
+	<p th:text="${new java.util.Date().toString()}"></p>
+	
+	<h2>テキストリテラルの記述</h2>
+	<p th:text="'I my me mine'"></p>
+	<p th:text="'I' + 'my' + 'me' + 'mine'"></p>
+	
+	<h2>条件分岐</h2>
+	<!--パラメータが存在する場合-->
+	<p th:if="${param.id != null}" th:text="'idは「' + ${param.id[0]} + '」'"></p>
+	<p th:if="${param.name != null}" th:text="'nameは「' + ${param.name[0]} + '」です。'"></p>
+
+	<!--パラメータが存在しない場合-->
+	<p th:if="${param.id == null}" th:text="'idは指定されていません。'"></p>
+	<p th:if="${param.name == null}" th:text="'nameは指定されていません。'"></p>
+	
+	<h2>リンク式とhref</h2>
+	<p><a th:text="'次のページ'" th:href="@{/other-page}"></a>	 
+	<p><a th:text="'詳細ページ'" th:href="@{/detail/{id}/(id = ${user_id})}"></a></p>
+	
+	<h2>選択オブジェクトへの変数式</h2>
+	<table th:object="${user}" >
+		<tr>
+			<th>名前</th>
+			<td th:text="*{name}"></td>
+		</tr>
+		<tr>
+			<th>紙幣</th>
+			<td th:text="*{bill}"></td>
+		</tr>
+	</table>
+	
+	</div>
+</body>
+</html>
