@@ -11,29 +11,47 @@
 			list-style-type: none;
 			padding-top: 5px;
 		}
+		.error_msg {/* 追記①ここから */
+			color: red;
+		}
+		.error_form {
+			border: aps solid red;
+		}/* 追記①ここまで */
 	</style>
 </head>
 <body>
 	<h1>Spring Bootの基本的な処理の流れ</h1>
-	<form method="post" th:action="@{/manual/check2}" th:object="${form}" accept-charset="UTF-8">
+	<form method="post" th:action="@{/manual/check2}" accept-charset="UTF-8" th:object="${form}"><!-- 追記②th:object,th:field -->
 		<h2>フォーム②（Formクラス）</h2>
+		<p th:if="${#fields.hasErrors()}" class="error_msg">入力内容に誤りがあります。</p><!-- 追記③ -->
 		<ul>
 			<li>
 				名前：
-				<input class="formParts" type="text" name="userName" value="名前">
+				<input class="formParts" th:errorclass="error_form" type="text" name="userName" th:field="*{userName}" value="名前"><!-- 追記⑤th:errorclass -->
+				<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="error_msg"></span><!-- 追記④ -->
 			</li>
 			<li>出身：
-				<select class="formParts" name="comeFrom">
-					<option value="" selected>選択してください</option>
-					<option value="Japan">日本</option>
-					<option value="other">日本以外</option>
+				<select class="formParts" th:errorclass="error_form" name="comeFrom"><!-- 追記⑤th:errorclass -->
+					<option value="">選択してください</option>
+					<option value="Japan" th:selected="*{comeFrom == 'Japan'}">日本</option><!-- 追記⑥th:field -->
+					<option value="other" th:selected="*{comeFrom == 'other'}">日本以外</option><!-- 追記⑥th:field -->
 				</select>
+				<span th:if="${#fields.hasErrors('comeFrom')}" th:errors="*{comeFrom}" th:errorclass="error_msg"></span><!-- 追記④ -->
 			</li>
 			<li>年齢：
-				<input class="formParts" type="text" name="age" value="20">
+				<input class="formParts" th:errorclass="error_form" type="text" name="age" th:field="*{age}" value="20"><!-- 追記⑤th:errorclass -->
+				<span th:if="${#fields.hasErrors('age')}" th:errors="*{age}" th:errorclass="error_msg"></span><!-- 追記④ -->
 			</li>
 			<li>
 				<input type="submit" value="送信ボタン">
+			</li>
+			<li>
+				期間：
+				<input class="formParts" type="text" name="lower" th:errorclass="error_form" th:field="*{lower}">～
+				<input class="formParts" type="text" name="upper" th:errorclass="error_form" th:field="*{upper}">
+				<span th:if="${#fields.hasErrors('lower')}" th:errors="*{lower}" th:errorclass="error_msg"></span>
+				<span th:if="${#fields.hasErrors('upper')}" th:errors="*{upper}" th:errorclass="error_msg"></span>
+				<span th:if="${#fields.hasErrors('dateValid')}" th:errors="*{dateValid}" th:errorclass="error_msg"></span>
 			</li>
 		</ul>
 	</form>

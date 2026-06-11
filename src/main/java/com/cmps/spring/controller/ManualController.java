@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.springframework.validation.BindingResult;////追記
+import org.springframework.validation.annotation.Validated;////追記
+
 import com.cmps.spring.form.CustomForm;
 import com.cmps.spring.form.ManualForm;
 
@@ -67,8 +70,7 @@ public class ManualController {
      * URL: http://localhost:8080/manual/index2
      */
     @GetMapping("/index2")
-    public String index2(Model model) {
-        model.addAttribute("form", new ManualForm());
+    public String index2(Model model, @ModelAttribute("form") ManualForm form) { // 💡 Added @ModelAttribute parameter here
         return "manual/index2"; // templates/manual/index2.html
     }
 
@@ -77,7 +79,14 @@ public class ManualController {
      * URL: http://localhost:8080/manual/check2
      */
     @PostMapping("/check2")
-    public String check2(Model model, @ModelAttribute("form") ManualForm form) {
+    public String check2(
+        Model model, 
+        @ModelAttribute("form") @Validated ManualForm form, // 💡 Added @Validated here
+        BindingResult result
+    ) {
+        if (result.hasErrors()) {
+            return index2(model, form);
+        }
         return "manual/check2"; // templates/manual/check2.html
     }
 
@@ -90,8 +99,7 @@ public class ManualController {
      * URL: http://localhost:8080/manual/exercise/form
      */
     @GetMapping("/exercise/form")
-    public String showForm(Model model) {
-        model.addAttribute("customForm", new CustomForm());
+    public String showForm(Model model, @ModelAttribute("customForm") CustomForm form) {
         return "exercise/formInput"; // templates/exercise/formInput.html
     }
 
@@ -100,7 +108,15 @@ public class ManualController {
      * URL: http://localhost:8080/manual/exercise/confirm
      */
     @PostMapping("/exercise/confirm")
-    public String confirmForm(Model model, @ModelAttribute("customForm") CustomForm form) {
+    public String confirmForm(
+        Model model, 
+        @ModelAttribute("customForm") @Validated CustomForm form, // 💡 Added @Validated
+        BindingResult result // 💡 Added BindingResult to catch validation rules
+    ) {
+        if (result.hasErrors()) {
+            return "exercise/formInput"; // Send back to input page if errors exist
+        }
+        
         model.addAttribute("customForm", form);
         return "exercise/formConfirm"; // templates/exercise/formConfirm.html
     }

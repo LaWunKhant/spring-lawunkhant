@@ -2,31 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Exercise Input Form</title>
+    <title>商品入力フォーム</title>
+    <style>.error-msg { color: red; font-size: 0.9em; }</style>
 </head>
 <body>
-    <h2>Form Object Binding Exercise</h2>
+    <h2>商品情報の入力</h2>
     <form th:action="@{/manual/exercise/confirm}" th:object="${customForm}" method="post">
         <div>
-            <label>タイトル:</label>
-            <input type="text" th:field="*{title}" required />
+            <label>商品コード:</label>
+            <input type="text" th:field="*{productCode}" />
+            <span th:if="${#fields.hasErrors('productCode')}" th:errors="*{productCode}" class="error-msg"></span>
         </div>
         <br>
         <div>
-            <label>カテゴリ:</label>
-            <select th:field="*{category}">
-                <option value="Technical">Technical</option>
-                <option value="Personal">Personal</option>
-                <option value="Business">Business</option>
-            </select>
+            <label>商品名:</label>
+            <input type="text" th:field="*{productName}" />
+            <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="error-msg"></span>
         </div>
         <br>
         <div>
-            <label>内容:</label><br>
-            <textarea th:field="*{content}" rows="4" cols="40" required></textarea>
+            <label>価格:</label>
+            <input type="text" th:field="*{price}" />
+            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-msg"></span>
         </div>
         <br>
-        <button type="submit">Submit Form Class</button>
+        <button type="submit">確認画面へ</button>
     </form>
 </body>
 </html>

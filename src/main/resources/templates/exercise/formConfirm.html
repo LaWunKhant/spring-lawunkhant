@@ -2,19 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Exercise Confirmation Screen</title>
+    <title>入力内容の確認</title>
 </head>
 <body>
-    <h2>Form Class Confirmation Output</h2>
-    
-    <div th:object="${customForm}">
-        <p><strong>タイトル:</strong> <span th:text="*{title}"></span></p>
-        <p><strong>カテゴリ:</strong> <span th:text="*{category}"></span></p>
-        <p><strong>内容:</strong></p>
-        <pre th:text="*{content}"></pre>
-    </div>
-
+    <h2>入力内容の確認</h2>
+    <table border="1">
+        <tr>
+            <th>商品コード</th>
+            <td th:text="${customForm.productCode}"></td>
+        </tr>
+        <tr>
+            <th>商品名</th>
+            <td th:text="${customForm.productName}"></td>
+        </tr>
+        <tr>
+            <th>価格</th>
+            <td th:text="${customForm.price} + ' 円'"></td>
+        </tr>
+    </table>
     <br>
-    <a th:href="@{/manual/exercise/form}">Back to Registration Form</a>
+    <a th:href="@{/manual/exercise/form}">入力画面に戻る</a>
 </body>
 </html>

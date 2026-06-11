@@ -1,21 +1,28 @@
 package com.cmps.spring.form;
 
-import java.io.Serializable;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Range;
 
-public class CustomForm implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class CustomForm {
 
-    private String title;
-    private String content;
-    private String category;
+    @NotEmpty
+    private String productCode;
+
+    @NotEmpty
+    private String productName;
+
+    @NotNull
+    @Range(min = 1, max = 9999)
+    private Integer price;
 
     // Getters and Setters
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getProductCode() { return productCode; }
+    public void setProductCode(String productCode) { this.productCode = productCode; }
 
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
+    public String getProductName() { return productName; }
+    public void setProductName(String productName) { this.productName = productName; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Integer getPrice() { return price; }
+    public void setPrice(Integer price) { this.price = price; }
 }
