@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;////追記
 import jakarta.validation.constraints.NotNull;////追記
 import org.hibernate.validator.constraints.Length;////追記
 import org.hibernate.validator.constraints.Range;////追記
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.AssertTrue;
 
 import lombok.Data;
@@ -26,6 +28,15 @@ public class ManualForm implements Serializable {
 		@NotNull(message = "年齢は必須項目です。")////追記
 		@Range(min = 0, max = 130, message = "年齢は0～130で入力してください。")////追記
 		private Integer age;
+		
+		@NotEmpty
+	    @Email // Validates basic email structure (must contain @)
+	    @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "{customForm.email.pattern}")
+	    private String email;
+
+	    // Getter and Setter
+	    public String getEmail() { return email; }
+	    public void setEmail(String email) { this.email = email; }
 		
 		 @NotNull(message = "開始日は入力必須です。")
 		 private Integer lower;

@@ -50,6 +50,11 @@
 				<span th:if="${#fields.hasErrors('dateValid')}" th:errors="*{dateValid}" th:errorclass="error_msg"></span>
 			</li>
 			<li>
+				メールアドレス：
+				<input class="formParts" th:errorclass="error_form" type="text" name="email" th:field="*{email}" placeholder="sample@example.com">
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error_msg"></span>
+			</li>
+			<li>
 				<input type="submit" value="送信ボタン">
 			</li>
 		</ul>
