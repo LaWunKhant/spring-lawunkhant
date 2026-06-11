@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Thymeleafの様々な使い方</title>
+	<meta charset="UTF-8">
+	<title>Thymeleafの様々な使い方</title>
+	<link th:href="@{/css/style.css}" rel="stylesheet">
+	<style>
+		@charset "UTF-8";
+		
+		.contents{
+			background-color: aquamarine;
+			border: 3px solid black;
+			padding: 10px 30px;
+		}
+	</style>
 </head>
 <body>
 	<div class="contents">
@@ -38,6 +48,40 @@
 			<td th:text="*{bill}"></td>
 		</tr>
 	</table>
+	
+	<h2>リテラル置換</h2>
+	<div th:object="${user}">
+		<p th:text = "|名前は *{name}、紙幣は *{bill}円です。|"></p>
+	</div>
+	
+	<h2>多項分岐(switch)</h2>
+	<div th:switch="${num}">
+		<p th:case="1" th:text="|${num} は oneです。|"></p>
+		<p th:case="2" th:text="|${num} は teoです。|"></p>
+		<p th:case="3" th:text="|${num} は threeです。|"></p>
+		<p th:case="4" th:text="|${num} は fourです。|"></p>
+		<p th:case="*" th:text="|${num} - 不明です。|"></p>
+	</div>
+	
+	 <h2>繰り返し(th:each)</h2>
+	<table>
+		<tr>
+			<th>名前</th>
+			<th>紙幣</th>
+		</tr>
+		<tr th:each="data : ${users}" th:object="${data}">
+			<td th:text="*{name}"></td>
+			<td th:text="|*{bill} 円|"></td>
+		</tr>
+	</table>
+	
+	<h2>th:blockタグ</h2>
+		<th:block th:if="${num == 1}">
+			<p th:text="${num == 1}"></p>
+		</th:block>
+		<th:block th:if="${num == 2}">
+			<p th:text="${num == 2}"></p>
+		</th:block>
 	
 	</div>
 </body>
