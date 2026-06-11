@@ -1,20 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>Manual Input Form</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<title th:text="${pageTitle}"></title>
+	<style>
+		.formParts {
+			width: 300px;
+		}
+		li {
+			list-style-type: none;
+			padding-top: 5px;
+		}
+	</style>
 </head>
 <body>
-    <h2>User Information Input</h2>
-    <form th:action="@{/manual/check}" method="post">
-        <ul>
-            <li>名前： <input class="formParts" type="text" name="userName" required></li>
-            <li>出身： <input class="formParts" type="text" name="comeFrom" required></li>
-            <li>年齢： <input class="formParts" type="text" name="age"></li>
-            <li>点数： <input class="formParts" type="text" name="score" required></li>
-        </ul>
-        <button type="submit" class="button">Submit</button>
-    </form>
+	<h1 th:text="${pageTitle}"></h1>
+	<form method="post" th:action="@{/manual/check}" accept-charset="UTF-8">
+		<h2>フォーム①（RequestParam）</h2>
+		<ul>
+			<li>名前：
+				<input class="formParts" type="text" name="userName" th:value="${manualText}">
+			</li>
+			<li>出身：
+				<select class="formParts" name="comeFrom">
+					<option value="Japan" selected>日本</option>
+					<option value="other">日本以外</option>
+				</select>
+			</li>
+			<li>年齢：
+				<input class="formParts" type="text" name="age">
+			</li>
+			<li>
+				<input type="submit" value="送信ボタン">
+			</li>
+		</ul>
+	</form>
 </body>
 </html>

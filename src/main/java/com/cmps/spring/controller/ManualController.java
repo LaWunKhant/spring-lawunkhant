@@ -9,26 +9,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cmps.spring.form.CustomForm;
+import com.cmps.spring.form.ManualForm;
 
 @Controller
-@RequestMapping("/manual")
+@RequestMapping("/manual") // Base URL prefix
 public class ManualController {
 
     // =========================================================================
-    // 問1: REQUESTPARAM VERSION (MANUAL PATHS)
+    // 1. マニュアル フォーム① (RequestParam Version + 問1 Score Fix)
     // =========================================================================
 
     /**
-     * Displays the initial manual input form.
+     * 初期画面の表示
      * URL: http://localhost:8080/manual/index
      */
     @GetMapping("/index")
-    public String showIndex() {
-        return "manual/index"; // Points to src/main/resources/templates/manual/index.html
+    public String index(Model model) {
+        String pageTitle = "Spring Bootの基本的な処理の流れ";
+
+        // Pass base data to view
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("manualText", "サーバー側から渡した文字列");
+        
+        return "manual/index"; // templates/manual/index.html
     }
 
     /**
-     * Processes the manual input form data, evaluates the score, and shows confirmation.
+     * 入力内容の確認（スコア判定ロジック付き）
      * URL: http://localhost:8080/manual/check
      */
     @PostMapping("/check")
@@ -37,51 +44,64 @@ public class ManualController {
         @RequestParam String userName, 
         @RequestParam String comeFrom, 
         @RequestParam(required = false) Integer age,
-        @RequestParam Integer score // Captures the score field from index.html
+        @RequestParam Integer score
     ) { 
-        // Pass individual attributes back to the view model
         model.addAttribute("userName", userName);
         model.addAttribute("comeFrom", comeFrom);
         model.addAttribute("age", age);
         model.addAttribute("score", score);
         
-        // --- Score Evaluation Logic ---
-        String evaluationResult;
-        if (score >= 80) {
-            evaluationResult = "おめでとうございます！";
-        } else {
-            evaluationResult = "残念";
-        }
-        
-        // Pass the calculated result text to check.html
+        // Score Evaluation Logic
+        String evaluationResult = (score >= 80) ? "おめでとうございます！" : "残念";
         model.addAttribute("resultMessage", evaluationResult);
 
-        return "manual/check"; // Points to src/main/resources/templates/manual/check.html
+        return "manual/check"; // templates/manual/check.html
     }
 
     // =========================================================================
-    // 問2: FORM CLASS VERSION (EXERCISE PATHS)
+    // 2. マニュアル フォーム② (ManualForm Class Version)
     // =========================================================================
 
     /**
-     * Displays the complex exercise input form bound to a data object container.
+     * 初期画面の表示（フォーム②Formクラス）
+     * URL: http://localhost:8080/manual/index2
+     */
+    @GetMapping("/index2")
+    public String index2(Model model) {
+        model.addAttribute("form", new ManualForm());
+        return "manual/index2"; // templates/manual/index2.html
+    }
+
+    /**
+     * 入力内容の確認（フォーム②Formクラス）
+     * URL: http://localhost:8080/manual/check2
+     */
+    @PostMapping("/check2")
+    public String check2(Model model, @ModelAttribute("form") ManualForm form) {
+        return "manual/check2"; // templates/manual/check2.html
+    }
+
+    // =========================================================================
+    // 3. 練習問題 問2 (CustomForm Class Version)
+    // =========================================================================
+
+    /**
+     * 練習問題用の入力画面表示
      * URL: http://localhost:8080/manual/exercise/form
      */
     @GetMapping("/exercise/form")
     public String showForm(Model model) {
-        // Provide an empty object instance so Thymeleaf can safely map fields natively
         model.addAttribute("customForm", new CustomForm());
-        return "exercise/formInput"; // Points to src/main/resources/templates/exercise/formInput.html
+        return "exercise/formInput"; // templates/exercise/formInput.html
     }
 
     /**
-     * Automatically binds all input fields into a CustomForm object instance and renders it.
+     * 練習問題用の確認画面表示
      * URL: http://localhost:8080/manual/exercise/confirm
      */
     @PostMapping("/exercise/confirm")
     public String confirmForm(Model model, @ModelAttribute("customForm") CustomForm form) {
-        // The parameter 'form' contains title, content, and category automatically populated
         model.addAttribute("customForm", form);
-        return "exercise/formConfirm"; // Points to src/main/resources/templates/exercise/formConfirm.html
+        return "exercise/formConfirm"; // templates/exercise/formConfirm.html
     }
-}	
+}

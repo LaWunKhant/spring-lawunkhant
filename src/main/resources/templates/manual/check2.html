@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>check2 | Spring Bootの基本的な処理の流れ</title>
+	<style>
+		.outputArea {
+			background-color: #FFFFDD;
+		}
+	</style>
+</head>
+<body>
+	<h1>Spring Bootの基本的な処理の流れ</h1>
+	<h2>フォーム②（Formクラス）</h2>
+	<div class="outputArea" th:object="${form}">
+		<p>↓↓ここに送信されたデータを表示</p>
+		<p th:text="'名前：' + *{userName}"></p>
+		<p th:text="'出身：' + *{comeFrom}"></p>
+		<p th:text="'年齢：' + *{age}"></p>
+		<p>↑↑ここに送信されたデータを表示</p>
+	</div>
+</body>
+</html>

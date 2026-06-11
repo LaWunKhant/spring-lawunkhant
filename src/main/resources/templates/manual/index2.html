@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Spring Bootの基本的な処理の流れ</title>
+	<style>
+		.formParts {
+			width: 300px;
+		}
+		li {
+			list-style-type: none;
+			padding-top: 5px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Spring Bootの基本的な処理の流れ</h1>
+	<form method="post" th:action="@{/manual/check2}" th:object="${form}" accept-charset="UTF-8">
+		<h2>フォーム②（Formクラス）</h2>
+		<ul>
+			<li>
+				名前：
+				<input class="formParts" type="text" name="userName" value="名前">
+			</li>
+			<li>出身：
+				<select class="formParts" name="comeFrom">
+					<option value="" selected>選択してください</option>
+					<option value="Japan">日本</option>
+					<option value="other">日本以外</option>
+				</select>
+			</li>
+			<li>年齢：
+				<input class="formParts" type="text" name="age" value="20">
+			</li>
+			<li>
+				<input type="submit" value="送信ボタン">
+			</li>
+		</ul>
+	</form>
+</body>
+</html>

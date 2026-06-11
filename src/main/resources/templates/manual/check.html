@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Confirmation Screen</title>
+    <style>
+		.outputArea {
+			background-color: #FFFFDD;
+		}
+	</style>
 </head>
 <body>
+	<h1>Spring Bootの基本的な処理の流れ</h1>
+	<h2>フォーム①（RequestParam）</h2>
     <h2>Submitted Confirmation Data</h2>
     <p th:text="'名前：' + ${userName}"></p>
     <p th:text="'出身：' + ${comeFrom}"></p>
