@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.cmps.spring.entity.Employee;
+import com.cmps.spring.repository.custom.EmployeeRepositoryCustom; // Custom Import
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
+public interface EmployeeRepository extends 
+    JpaRepository<Employee, Long>, 
+    JpaSpecificationExecutor<Employee>, 
+    EmployeeRepositoryCustom { // Add your custom interface right here!
 
     // Previous exercise method
     List<Employee> findByName(String name);

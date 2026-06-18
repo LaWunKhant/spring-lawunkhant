@@ -59,18 +59,19 @@ public class EmployeeController {
     
     @GetMapping("/search")
     public String search(Model model, com.cmps.spring.form.employee.SearchForm form) {
-        // Build the dynamic query using puzzle pieces
-        org.springframework.data.jpa.domain.Specification<Employee> spec = 
-            org.springframework.data.jpa.domain.Specification
-                .where(com.cmps.spring.repository.spec.EmployeeSpecs.nameContains(form.getName()))
-                .and(com.cmps.spring.repository.spec.EmployeeSpecs.ageGreaterThanEqual(form.getAgeLower()))
-                .and(com.cmps.spring.repository.spec.EmployeeSpecs.ageLessThanEqual(form.getAgeUpper()))
-                .and(com.cmps.spring.repository.spec.EmployeeSpecs.codeContains(form.getCode())); // Exercise Addition!
 
-        // Execute search
-        java.util.List<Employee> results = employeeRepository.findAll(spec);
-        
+        // 1. Call your custom repository implementation method directly!
+        List<Employee> results = employeeRepository.search(
+            form.getName(), 
+            form.getAgeLower(), 
+            form.getAgeUpper()
+        );
+
+        // 2. Note: Use "employeeList" if your index.html loop looks for ${employeeList}!
+        // If your manual's view is "employee/list", use "employee/list". 
+        // If your view is "employee/index", keep "employee/index".
         model.addAttribute("employeeList", results);
-        return "employee/index"; // Reuses your table list view!
+        
+        return "employee/index"; 
     }
 }
