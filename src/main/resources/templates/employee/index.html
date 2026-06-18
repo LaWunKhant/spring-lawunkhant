@@ -10,27 +10,40 @@
     </style>
 </head>
 <body>
-
-    <h2>All Employee Information</h2>
+	
+	<div>
+    	<h2>All Employee Information</h2>
+    </div>
     
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="emp : ${employeeList}">
-                <td th:text="${emp.id}"></td>
-                <td th:text="${emp.code}"></td>
-                <td th:text="${emp.name}"></td>
-                <td th:text="${emp.age}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+	    <table>
+	        <thead>
+	            <tr>
+	                <th>ID</th>
+	                <th>Code</th>
+	                <th>Name</th>
+	                <th>Age</th>
+	                <th>Action</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="emp : ${employeeList}">
+	                <td th:text="${emp.id}"></td>
+	                <td th:text="${emp.code}"></td>
+	                <td th:text="${emp.name}"></td>
+	                <td th:text="${emp.age}"></td>
+	                <td>
+	                    <a th:href="@{/emp/delete/{id}(id=${emp.id})}" 
+	                       onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+    </div>
+    
+    <div>
+    	<a href="/emp/register">Add New Employee</a>
+    </div>
 
 </body>
 </html>
