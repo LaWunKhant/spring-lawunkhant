@@ -10,11 +10,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "employees")
+@Table(name = "employees") // Hibernate creates a table with this exact name
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Handles AUTO_INCREMENT
     private Long id;
 
     @Column(length = 4)

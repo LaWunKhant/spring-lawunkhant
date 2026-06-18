@@ -10,10 +10,13 @@ import com.cmps.spring.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
 
-    // Part 2: Automatic derived query method (e.g., Select by Name)
+    // Previous exercise method
     List<Employee> findByName(String name);
 
-    // Part 3: Aggregate Function query method using @Query (e.g., Average Age)
+    // --- ADD THIS LINE FOR THE NEW EXERCISE ---
+    List<Employee> findByAgeGreaterThanEqual(Integer age);
+
+    // Part 3: Aggregate Function query method using @Query
     @Query("SELECT AVG(e.age) FROM Employee e")
     Double getAverageAge();
 }
