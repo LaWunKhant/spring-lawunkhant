@@ -2,55 +2,116 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>SQL Assignment Results</title>
+    <title>SQL Manual Assignment</title>
     <style>
-        table { border-collapse: collapse; margin-bottom: 20px; width: 400px; }
+        table { border-collapse: collapse; margin-bottom: 25px; width: 500px; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
         th { background-color: #f4f4f4; }
-        .section { margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .section { margin-bottom: 35px; border-bottom: 2px solid #ddd; padding-bottom: 20px; }
+        .card { padding: 15px; border: 1px solid #e0e0e0; border-radius: 5px; background: #fafafa; }
     </style>
 </head>
 <body>
-
-    <h1>練習問題 問1 Results</h1>
 
     <div class="section">
         <h2>問1-1: 基本的なSQL文 (全件検索)</h2>
         <table>
             <thead>
-                <tr><th>ID</th><th>Code</th><th>Name</th><th>Age</th></tr>
+                <tr><th>コード</th><th>輸出先名</th><th>人口 (万人)</th><th>地方</th></tr>
             </thead>
             <tbody>
-                <tr th:each="emp : ${allEmployees}">
-                    <td th:text="${emp.id}"></td>
-                    <td th:text="${emp.code}"></td>
-                    <td th:text="${emp.name}"></td>
-                    <td th:text="${emp.age}"></td>
+                <tr th:each="c : ${allCountries}">
+                    <td th:text="${c.code}"></td>
+                    <td th:text="${c.name}"></td>
+                    <td th:text="${c.population}"></td>
+                    <td th:text="${c.region}"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div class="section">
-        <h2>問1-2: SELECT文 (条件検索: 30歳以上)</h2>
+        <h2>練習問題：SELECT文 (条件検索)</h2>
+        
+        <p><strong>問1: 人口が100万人以上である国</strong></p>
         <table>
-            <thead>
-                <tr><th>ID</th><th>Code</th><th>Name</th><th>Age</th></tr>
-            </thead>
             <tbody>
-                <tr th:each="emp : ${seniorEmployees}">
-                    <td th:text="${emp.id}"></td>
-                    <td th:text="${emp.code}"></td>
-                    <td th:text="${emp.name}"></td>
-                    <td th:text="${emp.age}"></td>
-                </tr>
+                <tr th:each="c : ${q1}"><td th:text="${c.name}"></td><td th:text="${c.population} + '万人'"></td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>問2: 人口が100万人未満の国</strong></p>
+        <table>
+            <tbody>
+                <tr th:each="c : ${q2}"><td th:text="${c.name}"></td><td th:text="${c.population} + '万人'"></td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>問3: 輸出先コードが20未満かつ人口が150万人より多い国</strong></p>
+        <table>
+            <tbody>
+                <tr th:each="c : ${q3}"><td th:text="${c.name}"></td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>問4: 輸出先コードが20以上の国と、人口が200万人以上の国</strong></p>
+        <table>
+            <tbody>
+                <tr th:each="c : ${q4}"><td th:text="${c.name}"></td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>問5: トカンタ国の人口</strong><br/>
+        答: <span th:text="${q5Population != null ? q5Population + '万人' : 'データなし'}"></span></p>
+
+        <p><strong>問6: 国名に「ン」を含む国</strong></p>
+        <table>
+            <tbody>
+                <tr th:each="c : ${q6}"><td th:text="${c.name}"></td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>問7: 輸出先名がNULLでない国</strong></p>
+        <table>
+            <tbody>
+                <tr th:each="c : ${q7}"><td th:text="${c.name}"></td></tr>
             </tbody>
         </table>
     </div>
-
+    
     <div class="section">
-        <h2>問1-3: SELECT文 (集計関数・平均年齢)</h2>
-        <p>従業員の平均年齢: <strong><span th:text="${averageAge}"></span> 歳</strong></p>
+        <h2>SELECT文（集計関数、関数） 練習問題結果</h2>
+        <div class="card">
+            <p><strong>問1: 最小の人口は何万人でしょうか？</strong><br/>
+               答: <span th:text="${agg1}"></span> 万人</p>
+               
+            <p><strong>問2: 最大の人口は何万人でしょうか？</strong><br/>
+               答: <span th:text="${agg2}"></span> 万人</p>
+               
+            <p><strong>問3: 輸出先にある国の人口をすべて合計してください。</strong><br/>
+               答: <span th:text="${agg3}"></span> 万人</p>
+               
+            <p><strong>問4: 輸出先コードが20以上の国の人口をすべて合計してください。</strong><br/>
+               答: <span th:text="${agg4}"></span> 万人</p>
+               
+            <p><strong>問5: 人口が100万人以上の国は何カ国ありますか？</strong><br/>
+               答: <span th:text="${agg5}"></span> カ国</p>
+               
+            <p><strong>問6: 北洋に属する国は何カ国ありますか？</strong><br/>
+               答: <span th:text="${agg6}"></span> カ国</p>
+               
+            <p><strong>問7: 北洋に属する国で最大の人口は何万人でしょうか？</strong><br/>
+               答: <span th:text="${agg7}"></span> 万人</p>
+               
+            <p><strong>問8: リトール王国を除いた人口を合計すると何万人でしょうか？</strong><br/>
+               答: <span th:text="${agg8}"></span> 万人</p>
+               
+            <p><strong>問9: 平均人口が200万人以上となる地域を調べてください。</strong><br/>
+               答: <span th:text="${agg9}"></span></p>
+               
+            <p><strong>問10: ３カ国以上が属する地域を調べてください。</strong><br/>
+               答: <span th:text="${agg10}"></span></p>
+        </div>
     </div>
 
     <p><a href="/emp/find">← Back to Main Employee Dashboard</a></p>
