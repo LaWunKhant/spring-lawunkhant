@@ -16,6 +16,15 @@
     </div>
     
     <div>
+        <form method="GET" th:action="@{/emp/search}">
+            <label>Code: <input type="text" size="6" name="code"></label> &emsp;
+            <label>Name: <input type="text" size="12" name="name"></label> &emsp;
+            <label>Age: <input type="text" size="3" name="ageLower"> ～ <input type="text" size="3" name="ageUpper"></label> &emsp;
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    
+    <div>
 	    <table>
 	        <thead>
 	            <tr>
