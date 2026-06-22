@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>生徒の試験結果一覧</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { border-collapse: collapse; width: 50%; margin-top: 20px; }
+        th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <h2>生徒氏名: <span th:text="${student.name}">生徒名</span> の試験結果一覧</h2>
+    <p>生徒ID: <span th:text="${student.id}">000000</span> | 年齢: <span th:text="${student.age}">0</span></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>試験名</th>
+                <th>点数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="se : ${student.studentExams}">
+                <td th:text="${se.exam.title}">試験タイトル</td>
+                <td th:text="${se.score} + '点'">0点</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
