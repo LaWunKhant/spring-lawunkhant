@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.cmps.spring.entity.Employee;
-import com.cmps.spring.repository.EmployeeRepository;
+import com.cmps.spring.service.EmployeeService; // Imported Service
+import com.cmps.spring.form.employee.SearchForm;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -17,28 +18,28 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    // Inject EmployeeService instead of EmployeeRepository
+    private final EmployeeService employeeService;
 
     // --- HOMEWORK COMPLIANT MAIN ENDPOINT ---
     @GetMapping("/find")
     public String find(Model model) {
-        // 問1-1: 基本的なSQL文 (Repositoryの基本メソッド)
-        List<Employee> employeeList = employeeRepository.findAll();
+        // 問1-1: Service経由で全件取得
+        List<Employee> employeeList = employeeService.findAll();
         model.addAttribute("employeeList", employeeList);
         
-        // 問1-2: SELECT文 (自動実装のクエリメソッド)
-        // Testing the custom query method by searching for "田中"
-        List<Employee> searchResults = employeeRepository.findByName("田中");
+        // 問1-2: Service経由で名前検索
+        List<Employee> searchResults = employeeService.findByName("田中");
         model.addAttribute("searchResults", searchResults);
         
-        // 問1-3: SELECT文（集計関数、関数） (@Queryアノテーションでのメソッド定義)
-        Double averageAge = employeeRepository.getAverageAge();
+        // 問1-3: Service経由で平均年齢取得
+        Double averageAge = employeeService.getAverageAge();
         model.addAttribute("averageAge", averageAge);
         
         return "employee/index";
     }
 
-    // --- BUTTON ACTIONS (Keeps your links working!) ---
+    // --- BUTTON ACTIONS ---
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("employee", new Employee());
@@ -47,31 +48,26 @@ public class EmployeeController {
 
     @PostMapping("/insert")
     public String insertEmployee(@ModelAttribute Employee employee) {
-        employeeRepository.save(employee);
+        employeeService.save(employee); // Changed to Service
         return "redirect:/emp/find";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
-        employeeRepository.deleteById(id);
+        employeeService.deleteById(id); // Changed to Service
         return "redirect:/emp/find";
     }
     
     @GetMapping("/search")
-    public String search(Model model, com.cmps.spring.form.employee.SearchForm form) {
-
-        // 1. Call your custom repository implementation method directly!
-        List<Employee> results = employeeRepository.search(
+    public String search(Model model, SearchForm form) {
+        // Service経由でカスタム動的クエリ実行
+        List<Employee> results = employeeService.search(
             form.getName(), 
             form.getAgeLower(), 
             form.getAgeUpper()
         );
 
-        // 2. Note: Use "employeeList" if your index.html loop looks for ${employeeList}!
-        // If your manual's view is "employee/list", use "employee/list". 
-        // If your view is "employee/index", keep "employee/index".
         model.addAttribute("employeeList", results);
-        
         return "employee/index"; 
     }
 }
