@@ -103,25 +103,22 @@ public class RelationController {
 		return html.toString();
 	}
 	
-	@GetMapping("/student-exams")
-	public String getStudentExams() {
-	    // ID '001004' の生徒（藤田さん）を取得
-	    Optional<Student> studentOpt = studentRepository.findById("001004");
-	    if (studentOpt.isEmpty()) {
-	        return "生徒ID: 001004 が見つかりません。";
-	    }
-	    Student student = studentOpt.get();
-
+	@GetMapping("/all-students-exams")  // ✅ New endpoint
+	public String getAllStudentsExams() {
+	    List<Student> students = studentRepository.findAll();  // ✅ Change: Get ALL students
+	    
 	    StringBuilder html = new StringBuilder();
-	    html.append("<h3>生徒氏名: ").append(student.getName()).append(" の試験結果一覧</h3>");
-
-	    // 中間テーブルを経由して試験名と点数をループ処理
-	    for (StudentExam se : student.getStudentExams()) {
-	        html.append("試験名: ").append(se.getExam().getTitle())
-	            .append(" | 点数: ").append(se.getScore()).append("点")
-	            .append("<br>");
+	    html.append("<h3>全生徒の試験結果一覧</h3>");
+	    
+	    for (Student student : students) {  // ✅ Loop through each student
+	        html.append("<h4>").append(student.getName()).append("</h4>");
+	        
+	        for (StudentExam se : student.getStudentExams()) {  // Loop through exams
+	            html.append("試験名: ").append(se.getExam().getTitle())
+	                .append(" | 点数: ").append(se.getScore()).append("点")
+	                .append("<br>");
+	        }
 	    }
-
 	    return html.toString();
 	}
 	
