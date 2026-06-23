@@ -9,40 +9,58 @@
         th { background-color: #f4f4f4; }
         .section { margin-bottom: 35px; border-bottom: 2px solid #ddd; padding-bottom: 20px; }
         .card { padding: 15px; border: 1px solid #e0e0e0; border-radius: 5px; background: #fafafa; }
+        .section {
+		    margin-top: 25px;
+		    padding: 15px;
+		    border: 1px solid #ddd;
+		    background-color: #fcfcfc;
+		}
+		
+		.btn {
+		    display: inline-block;
+		    padding: 8px 14px;
+		    margin-right: 12px;
+		    color: white;
+		    text-decoration: none;
+		    border-radius: 4px;
+		}
+		
+		.btn-success {
+		    background-color: #28a745;
+		}
+		
+		.btn-danger {
+		    background-color: #dc3545;
+		}
     </style>
 </head>
 <body>
 
     <div class="section">
-        <h2>問1-1: 基本的なSQL文 (全件検索)</h2>
-        <table>
-            <thead>
-                <tr><th>コード</th><th>輸出先名</th><th>人口 (万人)</th><th>地方</th></tr>
-            </thead>
-            <tbody>
-                <tr th:each="c : ${allCountries}">
-                    <td th:text="${c.code}"></td>
-                    <td th:text="${c.name}"></td>
-                    <td th:text="${c.population}"></td>
-                    <td th:text="${c.region}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section" style="margin-top: 25px; padding: 15px; border: 1px solid #ddd; background-color: #fcfcfc;">
-        <h2>練習問題 アクション実行エリア</h2>
-        <p>画面上のボタンを直接クリックすることで、バックエンド経由でデータベース値を操作できます。</p>
-        
-        <div style="margin-top: 15px;">
-            <a href="/sql/update-tocanta" style="display: inline-block; padding: 8px 14px; margin-right: 12px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px;">
-                 トカンタ国の人口を150万人に変更
-            </a>
-            <a href="/sql/delete-parone" style="display: inline-block; padding: 8px 14px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px;">
-                パローヌ国のデータを削除
-            </a>
-        </div>
-    </div>
+	    <h2>問1-1: 基本的なSQL文 (全件検索)</h2>
+	    <table>
+	        <tr>
+	            <th>コード</th>
+	            <th>輸出先名</th>
+	            <th>人口</th>
+	            <th>地方</th>
+	        </tr>
+	        <tr th:each="c : ${allCountries}">
+	            <td th:text="${c.code}"></td>
+	            <td th:text="${c.name}"></td>
+	            <td th:text="${c.population}"></td>
+	            <td th:text="${c.region}"></td>
+	        </tr>
+	    </table>
+	</div>
+	
+	<div class="section">
+	    <h2>練習問題 アクション実行エリア</h2>
+	    <p>画面上のボタンを直接クリックすることで、バックエンド経由でデータベース値を操作できます。</p>
+	    
+	    <a href="/sql/update-tocanta" class="btn btn-success">トカンタ国の人口を150万人に変更</a>
+	    <a href="/sql/delete-parone" class="btn btn-danger">パローヌ国のデータを削除</a>
+	</div>
 
     <div class="section">
         <h2>練習問題：SELECT文 (条件検索)</h2>

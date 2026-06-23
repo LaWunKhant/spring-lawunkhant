@@ -3,7 +3,9 @@ package com.cmps.spring.repository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.cmps.spring.entity.ExportDestination;
 
@@ -18,7 +20,12 @@ public interface ExportDestinationRepository extends JpaRepository<ExportDestina
     Optional<ExportDestination> findByName(String name);
     List<ExportDestination> findByNameContaining(String keyword);
     List<ExportDestination> findByNameIsNotNull();
-
+    
+    @Modifying
+    @Query("UPDATE ExportDestination e SET e.population = :population WHERE e.name = :name")
+    void updatePopulation(@Param("name") String name, @Param("population") int population);
+    
+    void deleteByName(String name);
     // --- Second Exercise Methods (Aggregate Functions) ---
     // 問1: 最小の人口
     @Query("SELECT MIN(e.population) FROM ExportDestination e")

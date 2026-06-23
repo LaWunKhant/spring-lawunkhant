@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.cmps.spring.entity.ExportDestination;
+import org.springframework.transaction.annotation.Transactional;
 import com.cmps.spring.repository.ExportDestinationRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -66,26 +67,39 @@ public class SqlExerciseController {
         return "employee/sql_results";
     }
 
-    // --- 新しい練習問題用データ更新アクション (問2: トカンタ国アップデート) ---
+//    // --- 新しい練習問題用データ更新アクション (問2: トカンタ国アップデート) ---
+//    @GetMapping("/update-tocanta")
+//    public String updateTocanta() {
+//        exportDestinationRepository.findAll().stream()
+//            .filter(c -> "トカンタ国".equals(c.getName()))
+//            .findFirst()
+//            .ifPresent(c -> {
+//                c.setPopulation(150);
+//                exportDestinationRepository.save(c);
+//            });
+//        return "redirect:/sql/exercise1"; // Redirect refreshes all queries automatically!
+//    }
     @GetMapping("/update-tocanta")
+    @Transactional
     public String updateTocanta() {
-        exportDestinationRepository.findAll().stream()
-            .filter(c -> "トカンタ国".equals(c.getName()))
-            .findFirst()
-            .ifPresent(c -> {
-                c.setPopulation(150);
-                exportDestinationRepository.save(c);
-            });
-        return "redirect:/sql/exercise1"; // Redirect refreshes all queries automatically!
+        exportDestinationRepository.updatePopulation("トカンタ国", 150);
+        return "redirect:/sql/exercise1";
     }
+    
 
-    // --- 新しい練習問題用データ更新アクション (問3: パローヌ国削除) ---
+//    // --- 新しい練習問題用データ更新アクション (問3: パローヌ国削除) ---
+//    @GetMapping("/delete-parone")
+//    public String deleteParone() {
+//        exportDestinationRepository.findAll().stream()
+//            .filter(c -> "パローヌ国".equals(c.getName()))
+//            .findFirst()
+//            .ifPresent(c -> exportDestinationRepository.deleteById(c.getCode()));
+//        return "redirect:/sql/exercise1";
+//    }
     @GetMapping("/delete-parone")
+    @Transactional
     public String deleteParone() {
-        exportDestinationRepository.findAll().stream()
-            .filter(c -> "パローヌ国".equals(c.getName()))
-            .findFirst()
-            .ifPresent(c -> exportDestinationRepository.deleteById(c.getCode()));
+        exportDestinationRepository.deleteByName("パローヌ国");
         return "redirect:/sql/exercise1";
     }
 }
