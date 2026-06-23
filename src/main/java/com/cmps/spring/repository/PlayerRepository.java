@@ -1,6 +1,7 @@
 package com.cmps.spring.repository;
 
 import java.util.List;
+import java.util.Optional; // Don't forget to import this!
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +10,9 @@ import com.cmps.spring.entity.Player;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
+
+    // Added for Rule 2: Find a player by their exact unique code string
+    Optional<Player> findByCode(String code);
 
     // Exercise 1-2 Custom Query: Search by name
     List<Player> findByNameContaining(String name);

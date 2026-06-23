@@ -32,6 +32,10 @@
             <label for="age">年齢:</label>
             <input type="number" th:field="*{age}" placeholder="例: 38" min="15" max="50" required />
         </div>
+        
+        <div th:if="${errorMessage}" style="color: white; background-color: #DC3545; padding: 10px; margin-bottom: 15px; border-radius: 4px; font-weight: bold;">
+	        <span th:text="${errorMessage}"></span>
+	    </div>
 
         <button type="submit" class="btn-submit">保存する</button>
         <a th:href="@{/player/all}" style="margin-left: 15px;">キャンセル</a>

@@ -13,35 +13,32 @@
 </head>
 <body>
 
-    <h1 th:text="${assignment.id == null} ? '新規割り当て登録' : '割り当て情報の編集'">割り当て情報</h1>
+    <div class="form-container">
+        <h2 th:text="${assignment.id == null} ? '新規割り当て登録' : '割り当て編集'">新規割り当て登録</h2>
+        
+        <form th:action="@{/playerteam/save}" th:object="${assignment}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{player.id}" />
 
-    <form th:action="@{/playerteam/save}" th:object="${assignment}" method="post">
-        <input type="hidden" th:field="*{id}" />
+            <div class="form-group">
+                <label>チームを選択:</label>
+                <select th:field="*{team.id}" th:disabled="${assignment.id != null}" required>
+                    <option value="">-- チームを選択してください --</option>
+                    <option th:each="t : ${allTeams}" th:value="${t.id}" th:text="${t.teamName} + ' (' + ${t.league} + ')'"></option>
+                </select>
+                
+                <input type="hidden" th:if="${assignment.id != null}" th:name="team.id" th:value="${assignment.team.id}" />
+            </div>
 
-        <div class="form-group">
-            <label for="player">選手を選択:</label>
-            <select th:field="*{player.id}" required>
-                <option value="">-- 選手を選択してください --</option>
-                <option th:each="p : ${players}" th:value="${p.id}" th:text="${p.name}"></option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>契約年:</label>
+                <input type="number" th:field="*{contractYear}" placeholder="例: 2023" required />
+            </div>
 
-        <div class="form-group">
-            <label for="team">チームを選択:</label>
-            <select th:field="*{team.id}" required>
-                <option value="">-- チームを選択してください --</option>
-                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.teamName}"></option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="contractYear">契約年:</label>
-            <input type="number" th:field="*{contractYear}" placeholder="例: 2023" min="2000" max="2050" required />
-        </div>
-
-        <button type="submit" class="btn-submit">保存する</button>
-        <a th:href="@{/playerteam/all}" style="margin-left: 15px;">キャンセル</a>
-    </form>
+            <button type="submit" class="btn-submit">保存する</button>
+            <a th:href="@{/player/findone/{id}(id=${assignment.player.id})}" style="margin-left: 10px; color: #6c757d;">キャンセル</a>
+        </form>
+    </div>
 
 </body>
 </html>

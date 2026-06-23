@@ -7,6 +7,9 @@
         body { font-family: sans-serif; margin: 30px; line-height: 1.6; }
         .card { border: 1px solid #DDD; padding: 20px; max-width: 500px; background: #FAFAFA; }
         h2 { margin-top: 0; color: #333; }
+        table { border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 10px; }
+        th, td { padding: 10px; border: 1px solid #DDD; text-align: left; }
+        th { background-color: #EFEFEF; }
     </style>
 </head>
 <body>
@@ -24,7 +27,48 @@
         <p>該当する選手は見つかりませんでした。</p>
     </div>
 
-    <br>
+    
+    <div th:if="${player != null}" style="margin-top: 20px;">
+        <h3>所属チーム一覧 (Assigned Teams)</h3>
+        <table border="1" style="border-collapse: collapse; width: 100%; max-width: 700px; margin-top: 10px;">
+            <thead style="background-color: #EFEFEF;">
+                <tr>
+                    <th style="padding: 10px; text-align: left;">契約年 (Contract Year)</th>
+                    <th style="padding: 10px; text-align: left;">チーム名 (Team Name)</th>
+                    <th style="padding: 10px; text-align: left;">リーグ (League)</th>
+                    <th style="padding: 10px; text-align: center;">アクション</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="assignment : ${teamHistory}">
+                    <td th:text="${assignment.contractYear}" style="padding: 10px;">2023</td>
+                    <td th:text="${assignment.team.teamName}" style="padding: 10px;">Barcelona</td>
+                    <td th:text="${assignment.team.league}" style="padding: 10px;">La Liga</td>
+                    <!-- Edit & Delete Action Buttons (Matches Textbook!) -->
+                    <td style="padding: 10px; text-align: center;">
+                        <a th:href="@{/playerteam/edit/{id}(id=${assignment.id})}" 
+                           style="background: #FFC107; color: black; padding: 5px 10px; text-decoration: none; border-radius: 4px; margin-right: 5px;">編集</a>
+                        <a th:href="@{/playerteam/delete/{id}(id=${assignment.id})}" 
+                           onclick="return confirm('本当に削除しますか？');"
+                           style="background: #DC3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 4px;">削除</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(teamHistory)}">
+                    <td colspan="4" style="padding: 10px; text-align: center; color: gray;">
+                        所属チームのデータが登録されていません。
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Create New Navigation Button beneath the table -->
+        <div style="margin-top: 15px;">
+            <a th:href="@{/playerteam/register/{playerId}(playerId=${player.id})}" 
+               style="background: #007BFF; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; font-weight: bold;">新規作成</a>
+        </div>
+    </div>
+
+    <br><br>
     <a th:href="@{/player/all}">← 選手一覧に戻る</a>
 
 </body>

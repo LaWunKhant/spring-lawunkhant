@@ -1,6 +1,7 @@
 package com.cmps.spring.service;
 
 import java.util.List;
+import java.util.Optional; // Ensure this import is present
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cmps.spring.entity.Player;
@@ -12,6 +13,11 @@ import lombok.RequiredArgsConstructor;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+
+    // Added to check for unique player registration codes
+    public Optional<Player> findByCode(String code) {
+        return playerRepository.findByCode(code);
+    }
 
     public List<Player> findAll() {
         return playerRepository.findAll();

@@ -1,6 +1,8 @@
 package com.cmps.spring.controller;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cmps.spring.entity.Player;
+import com.cmps.spring.entity.PlayerTeam;
 import com.cmps.spring.service.PlayerService; 
 import com.cmps.spring.form.player.PlayerSearchForm;
+import com.cmps.spring.repository.PlayerTeamRepository;
+import com.cmps.spring.repository.TeamRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -21,6 +27,10 @@ import lombok.RequiredArgsConstructor;
 public class PlayerController {
 
     private final PlayerService playerService;
+    @Autowired
+    private PlayerTeamRepository playerTeamRepository;
+    
+    private final TeamRepository teamRepository;
 
     // 一覧表示画面 (List View Dashboard)
     @GetMapping("/all")
@@ -50,9 +60,22 @@ public class PlayerController {
     
     // データ保存処理：登録・更新共通 (Save / Update)
     @PostMapping("/save")
-    public String savePlayer(@ModelAttribute Player player, RedirectAttributes redirectAttributes) {
-        playerService.save(player); 
-        redirectAttributes.addFlashAttribute("successMessage", "選手情報の保存が完了しました。");
+    public String savePlayer(@ModelAttribute Player player, RedirectAttributes redirectAttributes, Model model) {
+        
+        // Check if the player code is already taken by another registered player
+        java.util.Optional<Player> existingPlayer = playerService.findByCode(player.getCode());
+        
+        if (existingPlayer.isPresent()) {
+            // If it's a NEW player registration, OR an edit where the code matches SOMEONE ELSE'S id:
+            if (player.getId() == null || !existingPlayer.get().getId().equals(player.getId())) {
+                model.addAttribute("errorMessage", "エラー: この選手コードはすでに登録されています。");
+                model.addAttribute("player", player); // Keep form inputs populated
+                return "player/register"; // Return back to your player registration/edit view template page
+            }
+        }
+        
+        playerService.save(player);
+        redirectAttributes.addFlashAttribute("successMessage", "選手情報を保存しました。");
         return "redirect:/player/all";
     }
 
@@ -66,9 +89,23 @@ public class PlayerController {
 
     // 詳細表示画面 (Find One Details)
     @GetMapping("/findone/{id}")
-    public String findOne(Model model, @PathVariable Long id) {
-        Player player = playerService.findById(id);
+    public String showPlayerDetail(@PathVariable Long id, Model model) {
+        // 1. Get the player basic info
+        Player player = playerService.findById(id); 
         model.addAttribute("player", player);
+        
+        // 2. Get the assigned teams history for this specific player
+        List<PlayerTeam> teamHistory = playerTeamRepository.findByPlayerId(id);
+        model.addAttribute("teamHistory", teamHistory);
+        
+        // 3. Load ALL teams for the selection dropdown box (As required by manual!)
+        model.addAttribute("allTeams", teamRepository.findAll());
+        
+        // 4. Prepare a fresh object for our inline form, pre-setting this player
+        PlayerTeam newAssignment = new PlayerTeam();
+        newAssignment.setPlayer(player);
+        model.addAttribute("newAssignment", newAssignment);
+        
         return "player/index"; 
     }
     	
