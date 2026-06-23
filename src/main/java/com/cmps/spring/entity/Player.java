@@ -1,15 +1,9 @@
 package com.cmps.spring.entity;
 
 import java.io.Serializable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
 @Builder
@@ -24,7 +18,11 @@ public class Player implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String code; // Player uniform/registration code (e.g., "M10", "O08")
-    private String name; // e.g., "Messi", "Odegaard"
+    private String code;
+    private String name;
     private Integer age;
+
+    // One player can have many team assignments
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PlayerTeam> teamAssignments;
 }

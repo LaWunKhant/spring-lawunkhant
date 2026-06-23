@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>選手チーム割り当ての登録・編集</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: inline-block; width: 140px; font-weight: bold; }
+        input[type="text"], input[type="number"], select { padding: 6px; width: 250px; }
+        .btn-submit { background: #28A745; color: white; padding: 8px 15px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1 th:text="${assignment.id == null} ? '新規割り当て登録' : '割り当て情報の編集'">割り当て情報</h1>
+
+    <form th:action="@{/playerteam/save}" th:object="${assignment}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="player">選手を選択:</label>
+            <select th:field="*{player.id}" required>
+                <option value="">-- 選手を選択してください --</option>
+                <option th:each="p : ${players}" th:value="${p.id}" th:text="${p.name}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="team">チームを選択:</label>
+            <select th:field="*{team.id}" required>
+                <option value="">-- チームを選択してください --</option>
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.teamName}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="contractYear">契約年:</label>
+            <input type="number" th:field="*{contractYear}" placeholder="例: 2023" min="2000" max="2050" required />
+        </div>
+
+        <button type="submit" class="btn-submit">保存する</button>
+        <a th:href="@{/playerteam/all}" style="margin-left: 15px;">キャンセル</a>
+    </form>
+
+</body>
+</html>

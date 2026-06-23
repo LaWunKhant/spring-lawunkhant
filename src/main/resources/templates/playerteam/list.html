@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>選手チーム割り当て管理</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; max-width: 1000px; margin-top: 15px; }
+        th, td { border: 1px solid #CCC; padding: 10px; text-align: left; }
+        th { background-color: #EFEFEF; }
+        .alert { padding: 10px; background-color: #D4EDDA; color: #155724; border: 1px solid #C3E6CB; margin-bottom: 15px; max-width: 1000px; }
+        .btn { padding: 5px 10px; text-decoration: none; border-radius: 3px; display: inline-block; margin-right: 5px; }
+        .btn-edit { background: #FFC107; color: #000; }
+        .btn-del { background: #DC3545; color: #FFF; }
+        .btn-add { background: #007BFF; color: #FFF; margin-bottom: 15px; }
+        .btn-back { background: #6C757D; color: #FFF; }
+    </style>
+</head>
+<body>
+
+    <h1>選手チーム割り当て管理</h1>
+
+    <div class="alert" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+    <a th:href="@{/playerteam/register}" class="btn btn-add">+ 新規割り当てを追加</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>選手名</th>
+                <th>チーム名</th>
+                <th>契約年</th>
+                <th>アクション</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="a : ${assignments}">
+                <td th:text="${a.id}"></td>
+                <td th:text="${a.player != null} ? ${a.player.name} : '未割り当て'"></td>
+                <td th:text="${a.team != null} ? ${a.team.teamName} : '未割り当て'"></td>
+                <td th:text="${a.contractYear}"></td>
+                <td>
+                    <a th:href="@{/playerteam/edit/{id}(id=${a.id})}" class="btn btn-edit">編集</a>
+                    <a th:href="@{/playerteam/delete/{id}(id=${a.id})}" class="btn btn-del" onclick="return confirm('本当に削除しますか？')">削除</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(assignments)}">
+                <td colspan="5" style="text-align:center;">割り当てデータが見つかりません。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/player/all}" class="btn btn-back">← メニューに戻る</a>
+
+</body>
+</html>

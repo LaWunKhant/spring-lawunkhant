@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>選手のチーム履歴</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; max-width: 800px; margin-top: 15px; }
+        th, td { border: 1px solid #CCC; padding: 10px; text-align: left; }
+        th { background-color: #EFEFEF; }
+        .card { border: 1px solid #DDD; padding: 15px; max-width: 800px; background: #FAFAFA; margin-bottom: 20px; }
+        h2 { margin-top: 0; color: #333; }
+        .btn-back { background: #6C757D; color: #FFF; padding: 8px 12px; text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>選手のチーム履歴</h1>
+
+    <div class="card">
+        <h2>選手ID: <span th:text="${playerId}"></span></h2>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>チーム名</th>
+                <th>リーグ</th>
+                <th>契約年</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="h : ${history}">
+                <td th:text="${h.team != null} ? ${h.team.teamName} : '未割り当て'"></td>
+                <td th:text="${h.team != null} ? ${h.team.league} : ''"></td>
+                <td th:text="${h.contractYear}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(history)}">
+                <td colspan="3" style="text-align:center;">この選手のチーム履歴はありません。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/playerteam/all}" class="btn-back">← 割り当て一覧に戻る</a>
+
+</body>
+</html>

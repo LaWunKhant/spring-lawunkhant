@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>チーム情報の登録・編集</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: inline-block; width: 120px; font-weight: bold; }
+        input[type="text"], input[type="number"] { padding: 6px; width: 250px; }
+        .btn-submit { background: #28A745; color: white; padding: 8px 15px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1 th:text="${team.id == null} ? '新規チーム登録' : 'チーム情報の編集'">チーム情報</h1>
+
+    <form th:action="@{/team/save}" th:object="${team}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="teamName">チーム名:</label>
+            <input type="text" th:field="*{teamName}" placeholder="例: Arsenal" required />
+        </div>
+
+        <div class="form-group">
+            <label for="league">リーグ:</label>
+            <input type="text" th:field="*{league}" placeholder="例: Premier League" />
+        </div>
+
+        <button type="submit" class="btn-submit">保存する</button>
+        <a th:href="@{/team/all}" style="margin-left: 15px;">キャンセル</a>
+    </form>
+
+</body>
+</html>
