@@ -1,6 +1,7 @@
 package com.cmps.spring.service;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.cmps.spring.entity.Employee;
@@ -54,6 +55,17 @@ public class EmployeeService {
     public List<Employee> search(String name, Integer ageLower, Integer ageUpper) {
         return employeeRepository.search(name, ageLower, ageUpper);
     }
+    
+    public void doTransactionSample(Long delId) {
+
+		// delIdを元にEntityを取得し、削除する
+		Employee employee1 = employeeRepository.findById(delId).get();//※①Entityが存在しない場合、エラーになる
+		employeeRepository.delete(employee1);
+		
+		//用意したインスタンスをDBに新規登録
+		Employee employee2 = new Employee("00800", "日下部", 46);//※②codeカラムは4文字が上限のため、"00800"の場合SQL実行時に必ずエラーになる
+		employeeRepository.save(employee2);
+	}
 	
     /**
      * 受け取ったidのデータが存在すれば更新、しなければ新規登録 (元の練習メソッド)

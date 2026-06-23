@@ -59,4 +59,6 @@ public interface ExportDestinationRepository extends JpaRepository<ExportDestina
     // 問10: ３か国以上が属する地域
     @Query("SELECT e.region FROM ExportDestination e GROUP BY e.region HAVING COUNT(e) >= 3")
     List<String> getRegionsWithThreeOrMoreCountries();
+    
+    
 }

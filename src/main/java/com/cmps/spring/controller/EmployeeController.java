@@ -58,6 +58,17 @@ public class EmployeeController {
         return "redirect:/emp/find";
     }
     
+    public String doTransaction(Model model) {
+
+		try {
+			employeeService.doTransactionSample(111L);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/emp/all";
+	}
+    	
     @GetMapping("/search")
     public String search(Model model, SearchForm form) {
         // Service経由でカスタム動的クエリ実行

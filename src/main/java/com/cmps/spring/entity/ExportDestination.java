@@ -5,10 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;  // Add this
+import lombok.AllArgsConstructor; // Add this
 
 @Data
+@NoArgsConstructor  // Add this (JPA needs an empty constructor)
+@AllArgsConstructor // Add this (Your Service needs the constructor with fields)
 @Entity
-@Table(name = "輸出先") // Maps directly to your DBeaver table name
+@Table(name = "輸出先") 
 public class ExportDestination {
 
     @Id
