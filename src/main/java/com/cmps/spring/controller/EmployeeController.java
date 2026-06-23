@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.cmps.spring.entity.Employee;
 import com.cmps.spring.service.EmployeeService; // Imported Service
 import com.cmps.spring.form.employee.SearchForm;
@@ -45,7 +48,40 @@ public class EmployeeController {
         model.addAttribute("employee", new Employee());
         return "employee/register";
     }
+    
+    @GetMapping("/trans-index")
+	public String transIndex(@ModelAttribute("successMessage") String successMessage) {////引数を追記
+		
+		return "employee/transition";
+	}
 
+    
+    @PostMapping("/post-sample")
+    public String postSample(@RequestParam String text, RedirectAttributes redirectAttributes) {////引数を追記
+		System.out.println("POST通信です。");
+		System.out.println("入力値：「" + text + "」");
+
+		////追記
+		// フラッシュメッセージをredirectAttributesに登録
+		redirectAttributes.addFlashAttribute("successMessage", "処理が完了しました。");
+		
+		return "redirect:/emp/trans-index";
+	}
+    
+    @GetMapping("/all")
+    public String showAllEmployees(Model model) {
+        List<Employee> employees = employeeService.findAll();
+        model.addAttribute("employees", employees);
+        return "employee/list"; // Maps to templates/employee/list.html
+    }
+    
+    @GetMapping("/findone/{id}")
+    public String findOne(Model model, @PathVariable Long id) {
+        Employee employee = employeeService.findById(id);
+        model.addAttribute("employee", employee);
+        return "employee/index"; // Or your dedicated detail view file
+    }
+    
     @PostMapping("/insert")
     public String insertEmployee(@ModelAttribute Employee employee) {
         employeeService.save(employee); // Changed to Service

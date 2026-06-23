@@ -27,7 +27,10 @@ public class EmployeeService {
     public List<Employee> findByName(String name) {
         return employeeRepository.findByName(name);
     }
-
+    
+    public Employee findById(Long id) {
+        return employeeRepository.findById(id).orElse(null);
+    }
     /**
      * 平均年齢を取得 (問1-3)
      */

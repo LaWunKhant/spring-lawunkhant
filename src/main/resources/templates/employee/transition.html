@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ページ遷移</title>
+	<style>
+		.block {
+			border: 1px dotted #CCC;
+			padding: 0 10px;
+			max-width: 800px;
+		}
+	</style>
+</head>
+<body>
+	<h1>ページ遷移の学習ページ</h1>
+	
+	<h2>GET通信</h2>
+	<div class="block">
+		<h3>aタグによる遷移</h3>
+		<a href="/emp/all">employeesテーブル一覧</a>
+	</div>
+	
+	<div class="block">
+		<h3>formタグ（method="GET"）でのフォーム送信による遷移</h3>
+		<form method="get" action="/emp/find">
+			<input type="text" name="name" value="GET通信">
+			<input type="submit" value="findページへ遷移">
+		</form>
+	</div>
+	
+	<h2>POST通信</h2>
+	<div class="block">
+		<h3>formタグ（method="POST"）でのフォーム送信による遷移</h3>
+		<form method="post" th:action="@{/emp/post-sample}">
+			<input type="text" name="text" value="POST通信">
+			<input type="submit" value="送信">
+		</form>
+	</div>
+	
+	<div th:if="${successMessage}"><!-- 完了メッセージ -->
+		<p th:text="${successMessage}"></p>
+	</div>
+</body>
+</html>

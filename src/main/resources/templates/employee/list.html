@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員一覧</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #CCC;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>従業員一覧ページ</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>従業員コード</th>
+                <th>名前</th>
+                <th>年齢</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${employees.size() > 0}" th:each="employee : ${employees}" th:object="${employee}">
+                <td>
+                    <a th:href="@{/emp/findone/{id}(id=*{id})}" th:text="*{id}"></a>
+                </td>
+                <td th:text="*{code}"></td>
+                <td th:text="*{name}"></td>
+                <td th:text="*{age}"></td>
+            </tr>
+            <tr th:if="${employees.size() == 0}">
+                <td colspan="4" style="text-align: center;">登録されている従業員はいません。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="back-link" th:href="@{/emp/trans-index}">← ページ遷移の学習ページに戻る</a>
+</body>
+</html>
