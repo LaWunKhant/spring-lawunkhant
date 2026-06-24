@@ -27,10 +27,6 @@ import lombok.RequiredArgsConstructor;
 public class PlayerController {
 
     private final PlayerService playerService;
-    @Autowired
-    private PlayerTeamRepository playerTeamRepository;
-    
-    private final TeamRepository teamRepository;
 
     // 一覧表示画面 (List View Dashboard)
     @GetMapping("/all")
@@ -90,23 +86,13 @@ public class PlayerController {
     // 詳細表示画面 (Find One Details)
     @GetMapping("/findone/{id}")
     public String showPlayerDetail(@PathVariable Long id, Model model) {
-        // 1. Get the player basic info
-        Player player = playerService.findById(id); 
+        Player player = playerService.findById(id);
         model.addAttribute("player", player);
         
-        // 2. Get the assigned teams history for this specific player
-        List<PlayerTeam> teamHistory = playerTeamRepository.findByPlayerId(id);
-        model.addAttribute("teamHistory", teamHistory);
+        // Get team history directly from the relationship!
+        model.addAttribute("teamHistory", player.getTeamAssignments());
         
-        // 3. Load ALL teams for the selection dropdown box (As required by manual!)
-        model.addAttribute("allTeams", teamRepository.findAll());
-        
-        // 4. Prepare a fresh object for our inline form, pre-setting this player
-        PlayerTeam newAssignment = new PlayerTeam();
-        newAssignment.setPlayer(player);
-        model.addAttribute("newAssignment", newAssignment);
-        
-        return "player/index"; 
+        return "player/index";
     }
     	
     // 条件検索機能 (Search Filters)

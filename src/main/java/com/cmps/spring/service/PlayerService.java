@@ -48,4 +48,16 @@ public class PlayerService {
     public List<Player> search(String name, Integer ageLower, Integer ageUpper) {
         return playerRepository.searchPlayers(name, ageLower, ageUpper);
     }
+    
+    public boolean isCodeAvailable(String code, Long playerId) {
+        Optional<Player> existing = findByCode(code);
+        if (existing.isEmpty()) return true;
+        return existing.get().getId().equals(playerId);
+    }
+
+    // Validate age range
+    public boolean isValidAgeRange(Integer lower, Integer upper) {
+        if (lower == null || upper == null) return true;
+        return lower <= upper;
+    }
 }
