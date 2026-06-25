@@ -81,6 +81,7 @@ public class TextOpeController {
 		Path path = DIR_PATH.resolve(Path.of(textOpeForm.getFile().getOriginalFilename()));
 
 		try {
+			Files.createDirectories(DIR_PATH);
 			Files.copy(textOpeForm.getFile().getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,16 +1,23 @@
 package com.cmps.spring.dto;
 
-import lombok.Data;
+public class TextOpeDto {
+    private String name;
+    private String content;
 
-@Data
-public class TextOpeDto {public void setName(String string) {
-		// TODO Auto-generated method stub
-		
-	}
+    // These getters are required for Thymeleaf!
+    public String getName() {
+        return name;
+    }
 
-public void setContent(String content) {
-	// TODO Auto-generated method stub
-	
-}
+    public String getContent() {
+        return content;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
