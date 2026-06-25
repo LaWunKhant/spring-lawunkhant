@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>画像アップロード(DB)</title>
+	<link rel="stylesheet" th:href="@{/css/manual.css}">
+</head>
+<body>
+	<h1>画像アップロード（DB）</h1>
+	<div th:if="${resultMessage}" class="messageBlock"><!-- 完了メッセージ -->
+		<p th:text="${resultMessage}" class="messageBlock_text"></p>
+	</div>
+	<div class="block">
+		<h2>画像をバイナリ変換してDBに保存</h2>
+		<form method="post" th:action="@{/imgupDB/upload}" enctype="multipart/form-data"><!-- 画像のアップロード フォーム -->
+			<input type="file" name="file" accept="image/*">
+			<input type="submit" value="DBにアップロード">
+		</form>
+		<th:block th:if="${imgForm != null}" th:object="${imgForm}"><!-- エラー表示 -->
+			<p th:if="${#fields.hasErrors('file')}" th:errors="*{file}" style="color:red"></p>
+		</th:block>
+	</div>
+	<div class="block">
+		<h2>保存した画像の表示（DBから）</h2>
+		<ul class="upload_list" th:if="${list}"><!-- 画像の一覧表示 -->
+			<li class="upload_item" th:each="item : ${list}" th:object="${item}">
+				<p th:text="*{name}"></p>
+				<img th:src="*{srcText}">
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
