@@ -1,0 +1,7 @@
+cd src\main\resources\static\text
+ren old.txt cmd.txt
+copy cmd.txt C:\Users\Moon\backup
+md projects
+move cmd.txt ..
+del cmd.txt
+rd old_files
