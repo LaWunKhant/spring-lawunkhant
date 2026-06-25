@@ -24,7 +24,7 @@ public class FileExtensionValidator implements ConstraintValidator<FileExtension
 		//正規表現パターンを作成（regExpがtxtなら、「○○.txt」）
 		//任意の文字(.*) + ドット(\\.) + 指定拡張子(regExp) + 終端($)
 		//Pattern.CASE_INSENSITIVEを第2引数に与えると大文字小文字を区別しない
-		String regex = ".*\\." + Pattern.quote(regExp) + "$";
+		String regex = ".*\\.(" + regExp + ")$";
 		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
 		//正規表現チェック

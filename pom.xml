@@ -88,6 +88,15 @@
 		    <artifactId>flyway-mysql</artifactId>
 		    <version>10.1.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-csv</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.16.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

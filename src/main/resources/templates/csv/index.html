@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html" charset="UTF-8">
+    <title>CSVファイル操作</title>
+    <link rel="stylesheet" th:href="@{/css/manual.css}">
+</head>
+<body>
+    <h1>CSVアップロード・出力画面</h1>
+    <div th:if="${resultMessage}" class="messageBlock">
+        <p th:text="${resultMessage}" class="messageBlock_text"></p>
+    </div>
+    <div class="block">
+        <h2>CSVアップロード</h2>
+        <form method="POST" th:action="@{/csv/upload}" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="アップロード">
+            <th:block th:if="${csvForm}" th:object="${csvForm}">
+                <p th:if="${#fields.hasErrors('file')}" th:errors="*{file}" style="color:red"></p>
+            </th:block>
+        </form>
+        <th:block th:if="${list != null && !list.isEmpty()}">
+            <div class="result-block">
+                <h3>DBに保存したデータ</h3>
+                <table>
+                    <tr>
+                        <th>code</th>
+                        <th>name</th>
+                        <th>age</th>
+                        <th>address</th>
+                    </tr>
+                    <tr th:each="data : ${list}" th:object="${data}">
+                        <td th:text="*{code}"></td>
+                        <td th:text="*{name}"></td>
+                        <td th:text="*{age}"></td>
+                        <td th:text="*{address}"></td>
+                    </tr>
+                </table>
+            </div>
+        </th:block>
+    </div>
+
+    <div class="block">
+	    <h2>テーブル全件</h2>
+	    <table>
+	        <tr>
+	            <th>code</th>
+	            <th>name</th>
+	            <th>age</th>
+	            <th>address</th>
+	        </tr>
+	        <tr th:each="data : ${allList}" th:object="${data}">
+	            <td th:text="*{code}"></td>
+	            <td th:text="*{name}"></td>
+	            <td th:text="*{age}"></td>
+	            <td th:text="*{address}"></td>
+	        </tr>
+	        <tr th:if="${allList == null || allList.isEmpty()}">
+	            <td colspan="4" style="text-align: center;">NO DATA</td>
+	        </tr>
+	    </table>
+	</div>
+
+    <div class="block">
+        <h2>CSVファイルをプロジェクト内に出力</h2>
+        <form method="POST" th:action="@{/csv/output}">
+            <input type="submit" value="出力">
+        </form>
+        <form method="POST" th:action="@{/csv/output-download}">
+            <input type="submit" value="出力済みのCSVをダウンロード">
+        </form>
+    </div>
+
+    <!-- 追加HTMLの挿入箇所 -->
+    <div class="block">
+	    <h2>現状のテーブル全件をCSVでダウンロード</h2>
+	    <form method="POST" th:action="@{/csv/download}">
+	        <input type="text" name="fileName" placeholder="ファイル名を入力">
+	        <input type="submit" value="ダウンロード">
+	    </form>
+</div>
+</body>
+</html>
