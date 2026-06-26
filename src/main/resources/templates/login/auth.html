@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>認証情報の表示</title>
+</head>
+<body>
+    <header>
+        <h1>認証情報の表示</h1>
+    </header>
+    <div>
+        <div sec:authorize="!isAuthenticated()">
+            <p>◆ログインしていません◆</p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <p>◆ログイン中です◆</p>
+            <p>＜ログイン情報＞<br>
+                ユーザー名：<span sec:authentication="principal.user.username"></span><br>
+                メールアドレス：<span sec:authentication="principal.user.email"></span>
+            </p>
+            <form method="post" th:action="@{/logout}">
+                <input type="submit" value="ログアウトボタン">
+            </form>
+            <p th:text="|ようこそ、${#authentication.principal.user.username}さん。|"></p>
+        </div>
+    </div>
+</body>
+</html>
