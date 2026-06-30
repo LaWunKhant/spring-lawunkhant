@@ -1,6 +1,8 @@
 package com.cmps.spring.repository;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +15,9 @@ public interface EmployeeRepository extends
     JpaRepository<Employee, Long>, 
     JpaSpecificationExecutor<Employee>, 
     EmployeeRepositoryCustom { // Add your custom interface right here!
-
+	
+	List<Employee> findByNameContaining(String name);
+	Optional<Employee> findByNameEquals(String name);
     // Previous exercise method
     List<Employee> findByName(String name);
 
