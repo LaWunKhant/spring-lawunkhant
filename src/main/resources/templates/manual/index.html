@@ -11,10 +11,21 @@
 			list-style-type: none;
 			padding-top: 5px;
 		}
+		.bg-selected {
+			background-color: #CEF6F5;
+			color: #000000;
+		}
+		.bg-unselected {
+			background-color: #ffff;
+			color: #999999;
+		}
 	</style>
 </head>
 <body>
 	<h1 th:text="${pageTitle}"></h1>
+
+	<h2>カウントダウン: <span id="timer">10</span></h2>
+
 	<form method="post" th:action="@{/manual/check}" accept-charset="UTF-8">
 		<h2>フォーム①（RequestParam）</h2>
 		<ul>
@@ -31,9 +42,23 @@
 				<input class="formParts" type="text" name="age">
 			</li>
 			<li>
+				<p>テキストエリア</p>
+				<textarea name="textarea" id="textArea" cols="30" rows="3"></textarea>
+				<p>文字数：<span id="textCount">0</span>文字</p>
+			</li>
+			<li>
+				<p>ラジオボタン</p>
+				<input type="radio" name="radio1" value="良い" id="radioGood" checked="checked">
+				<label for="radioGood">良い</label>
+				<input type="radio" name="radio1" value="悪い" id="radioBad">
+				<label for="radioBad">悪い</label>
+			</li>
+			<li>
 				<input type="submit" value="送信ボタン">
 			</li>
 		</ul>
 	</form>
+
+	<script th:src="@{/js/jsmanual.js}"></script>
 </body>
 </html>
