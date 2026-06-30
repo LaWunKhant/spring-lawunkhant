@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>セッションを用いたプログラム　送信先</title>
+</head>
+<body>
+    <h2>カート内容の表示</h2>
+    <ul>
+        <li>
+            <h2>書籍名</h2>
+            <p th:each="book : ${bookList}"><span th:text="${book}"></span></p>
+        </li>
+        <li>
+            <h2>タイトル</h2>
+            <p th:each="cd : ${cdList}"><span th:text="${cd}"></span></p>
+        </li>
+    </ul>
+    <p><a th:href="@{/session/shop}">← [カート追加画面へ]</a></p>
+</body>
+</html>

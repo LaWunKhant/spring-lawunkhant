@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>セッションを用いたプログラム</title>
+</head>
+<body>
+    <h2>カートへの追加フォーム</h2>
+    <form method="post" th:action="@{/session/check}" accept-charset="UTF-8">
+        <ul>
+            <li>
+                <p>本</p>
+                <input type="text" name="book">
+            </li>
+            <li>
+                <p>cd</p>
+                <input type="text" name="cd">
+            </li>
+        </ul>
+        <input type="submit" value="購入へ進む">
+    </form>
+    <p><a th:href="@{/session/showCart}">[カートを確認]</a></p>
+</body>
+</html>

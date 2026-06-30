@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>クッキーの情報を表示</title>
+</head>
+<body>
+    <ul>
+        <li>
+            <h2>ユーザー名</h2>
+            <p th:text="${name}"></p>
+        </li>
+        <li>
+            <h2>パスワード</h2>
+            <p th:text="${pass}"></p>
+        </li>
+    </ul>
+</body>
+</html>
