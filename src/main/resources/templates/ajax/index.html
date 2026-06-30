@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax通信</title>
+</head>
+<body>
+    <h1>Ajax通信</h1>
+    <div>
+        <h2>全データ取得</h2>
+        <button class="allBtn">クリック</button>
+        <ul class="list"></ul>
+    </div>
+
+    <div>
+        <h2>IDで検索</h2>
+        <form method="POST" th:action="@{/ajax/find}" id="find">
+            <input type="text" id="id" name="id">
+            <input type="submit" value="検索">
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <div class="wrapper">
+        <h2>REST API</h2>
+        <button id="getEmp">ID=1取得</button>
+        <button id="createEmp">新規登録</button>
+        <p id="apiResult"></p>
+    </div>
+    
+    <div>
+	    <h2>名前で検索</h2>
+	    <form method="POST" th:action="@{/ajax/searchByName}" id="searchForm">
+	        <input type="text" id="keyword" name="keyword">
+	        <input type="submit" value="検索">
+	    </form>
+	    <ul id="searchResult"></ul>
+	</div>
+	
+	<div>
+	    <h2>セレクトボックスで年齢確認</h2>
+	    <select id="empSelect">
+	        <option value="">選択してください</option>
+	        <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
+	    </select>
+	    <p id="ageResult"></p>
+	</div>
+
+    <script th:src="@{/js/ajaxmanual.js}"></script>
+</body>
+</html>
