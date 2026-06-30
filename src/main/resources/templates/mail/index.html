@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html" charset="UTF-8">
+    <title>メール送信</title>
+    <style>
+        label { display: block; }
+        .formBlock { background-color: #FCFCEF; max-width: 800px; padding: 15px; }
+        .formBlock_part { display: block; margin: 10px 0px; }
+        .messageBlock_text { font-weight: 700; }
+    </style>
+</head>
+<body>
+    <h1>メール送信フォーム</h1>
+    <div class="formBlock">
+        <h2>アンケート</h2>
+        <form method="POST" th:action="@{/mail/send}">
+            <label>名前：
+                <input class="formBlock_part" type="text" name="name" value="名前">
+            </label>
+            <label>メールアドレス：
+			    <input class="formBlock_part" type="email" name="email" value="example@gmail.com">
+			</label>
+            <label>自由入力欄：
+                <textarea class="formBlock_part" name="content" cols="50" rows="4">アンケート回答内容サンプル</textarea>
+            </label>
+            <input class="formBlock_part" type="submit" value="メール送信">
+        </form>
+    </div>
+    <div th:if="${successMessage}" class="messageBlock">
+        <p th:text="${successMessage}" class="messageBlock_text"></p>
+    </div>
+</body>
+</html>
