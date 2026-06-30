@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript練習</title>
+    <style>
+        .bg-selected {
+            background-color: #CEF6F5;
+            color: #000000;
+        }
+        .bg-unselected {
+            background-color: #ffff;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript練習フォーム</h1>
+
+    <h2>カウントダウン: <span id="timer">10</span></h2>
+
+    <ul>
+        <li>
+            <div>
+                <p>テキストエリア</p>
+                <textarea name="textarea" id="textArea" cols="30" rows="3"></textarea>
+                <p>文字数：<span id="textCount">0</span>文字</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <p>ラジオボタン</p>
+                <input type="radio" name="radio1" value="良い" id="radioGood" checked="checked">
+                <label for="radioGood">良い</label>
+                <input type="radio" name="radio1" value="悪い" id="radioBad">
+                <label for="radioBad">悪い</label>
+            </div>
+        </li>
+    </ul>
+
+    <script th:src="@{/js/jsmanual.js}"></script>
+    
+     <script>
+		  document.write("Hello world!!");
+	</script>
+</body>
+</html>
