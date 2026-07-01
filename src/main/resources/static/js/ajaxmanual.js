@@ -133,4 +133,45 @@ document.addEventListener("DOMContentLoaded", function () {
 	    })
 	    .catch(error => console.error(error));
 	});
+	
+	// jQuery Ajax実装
+	$(function() {
+	    // 全データ取得してコンソールに表示 & HTMLに書き込み
+	    $(".allBtn").on("click", function(e) {
+	        $.ajax({
+	            url: "/ajax/all",
+	            type: "GET",
+	        }).done(function(data) {
+	            console.log(data);
+	            $.each(data, function(index, value) {
+	                let html = `<li>ID：${value.id} , name：${value.name}</li>`;
+	                $(".list").append(html);
+	            });
+	        }).fail(function(error) {
+	            console.log("fail!");
+	            console.log(error);
+	        });
+	    });
+
+	    // IDで検索
+	    $('#find').on('submit', function(e) {
+	        e.preventDefault();
+	        $.ajax({
+	            headers: {
+	                'X-CSRF-TOKEN': $("input[name=_csrf]").val(),
+	            },
+	            url: $(this).attr("action"),
+	            type: 'POST',
+	            data: {
+	                'id': $('#id').val(),
+	            },
+	            datatype: 'json',
+	        }).done(function(data) {
+	            console.log(data);
+	            $('#result').append('ID：' + data["id"] + '<br>name：' + data["name"] + "<br>");
+	        }).fail(function() {
+	            console.log('fail!');
+	        });
+	    });
+	});
 });
