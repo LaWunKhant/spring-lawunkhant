@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import com.cmps.spring.entity.Employee;
 import com.cmps.spring.service.EmployeeService; 
@@ -25,10 +28,10 @@ public class EmployeeController {
 
     // --- MAIN DASHBOARD / LIST ENDPOINT ---
     @GetMapping("/all")
-    public String showAllEmployees(Model model) {
-        List<Employee> employees = employeeService.findAll();
-        model.addAttribute("employees", employees);
-        return "employee/list"; // Maps to templates/employee/list.html
+    public String showAllEmployees(Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) {
+        Page<Employee> pageList = employeeService.findAllPaginated(pageable);
+        model.addAttribute("pages", pageList);
+        return "employee/list";
     }
 
     // --- HOMEWORK COMPLIANT SEARCH ENDPOINT ---

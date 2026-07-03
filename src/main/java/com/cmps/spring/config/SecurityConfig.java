@@ -24,7 +24,7 @@ public class SecurityConfig {
         ).logout(logout -> logout
                 .logoutSuccessUrl("/login")
         		).authorizeHttpRequests(authz -> authz
-        		        .requestMatchers("/hello", "/emp/all").authenticated()
+        		        .requestMatchers("/hello", "/emp/all").permitAll()
         		        .anyRequest().permitAll()
         		);
 

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.cmps.spring.entity.Employee;
 import com.cmps.spring.repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,7 +22,6 @@ public class EmployeeService {
     public List<Employee> findAll() {
         return employeeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
-    
     /**
      * 名前で検索 (問1-2)
      */
@@ -79,4 +80,10 @@ public class EmployeeService {
         emp.setName(name);
         return employeeRepository.save(emp);
     }
+    
+    public Page<Employee> findAllPaginated(Pageable pageable) {
+        return employeeRepository.findAll(pageable);
+    }
+    
+    
 }

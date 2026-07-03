@@ -5,53 +5,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>従業員一覧</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
             max-width: 800px;
             margin-top: 20px;
         }
+
         th, td {
             border: 1px solid #CCC;
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f4f4f4;
         }
+
+        /* ページネーションスタイル */
+        .pagination {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination_item {
+            list-style: none;
+            margin-right: 10px;
+        }
+
+        .pagination_ItemLink {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: solid 2px black;
+            color: black;
+            font-weight: bold;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+
+        .pagination_ItemLink:not(.isActive):hover {
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+
+        .pagination_ItemLink.isActive {
+            background: black;
+            color: white;
+            pointer-events: none;
+        }
+
         .back-link {
             display: inline-block;
             margin-top: 20px;
         }
+
+        .page-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
-    <h1>従業員一覧ページ</h1>
+    <div class="content">
+        <h1>従業員一覧ページ</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>従業員コード</th>
-                <th>名前</th>
-                <th>年齢</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:if="${employees.size() > 0}" th:each="employee : ${employees}" th:object="${employee}">
-                <td>
-                    <a th:href="@{/emp/findone/{id}(id=*{id})}" th:text="*{id}"></a>
-                </td>
-                <td th:text="*{code}"></td>
-                <td th:text="*{name}"></td>
-                <td th:text="*{age}"></td>
-            </tr>
-            <tr th:if="${employees.size() == 0}">
-                <td colspan="4" style="text-align: center;">登録されている従業員はいません。</td>
-            </tr>
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>従業員コード</th>
+                    <th>名前</th>
+                    <th>年齢</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${pages.content.size() > 0}" th:each="employee : ${pages.content}" th:object="${employee}">
+                    <td>
+                        <a th:href="@{/emp/findone/{id}(id=*{id})}" th:text="*{id}"></a>
+                    </td>
+                    <td th:text="*{code}"></td>
+                    <td th:text="*{name}"></td>
+                    <td th:text="*{age}"></td>
+                </tr>
+                <tr th:if="${pages.content.size() == 0}">
+                    <td colspan="4" style="text-align: center;">登録されている従業員はいません。</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a class="back-link" th:href="@{/emp/trans-index}">← ページ遷移の学習ページに戻る</a>
+        <!-- ページネーション -->
+        <ul class="pagination">
+            <!-- 「最初へ」ボタン -->
+            <li th:if="${pages.hasPrevious()}" class="pagination_item">
+                <a th:href="@{/emp/all(page=0)}" class="pagination_ItemLink">≪</a>
+            </li>
+
+            <!-- ページ番号 -->
+            <li th:each="num: ${#numbers.sequence(
+                            (pages.number > 0 ? pages.number - 1 : 0),
+                            (pages.number < pages.totalPages - 1 ? pages.number + 1 : pages.totalPages - 1))}" 
+                class="pagination_item">
+                <span th:if="${num}==${pages.number}" th:text="${num+1}" class="pagination_ItemLink isActive"></span>
+                <a th:if="${num}!=${pages.number}" th:href="@{/emp/all(page=${num})}" th:text="${num+1}" class="pagination_ItemLink"></a>
+            </li>
+
+            <!-- 「最後へ」ボタン -->
+            <li th:if="${pages.hasNext()}" class="pagination_item">
+                <a th:href="@{/emp/all(page=(${pages.totalPages - 1}))}" class="pagination_ItemLink">≫</a>
+            </li>
+        </ul>
+
+        <!-- ページ情報表示 -->
+        <div class="page-info">
+            <span th:text="'現在のページ: ' + ${pages.number + 1} + '/' + ${pages.totalPages}"></span>
+            <span th:text="' (全 ' + ${pages.totalElements} + ' 件)'"></span>
+        </div>
+
+        <a class="back-link" th:href="@{/emp/trans-index}">← ページ遷移の学習ページに戻る</a>
+    </div>
 </body>
 </html>
