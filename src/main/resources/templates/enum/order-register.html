@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注文登録</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #CCC;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        select {
+            margin: 5px 0;
+            padding: 8px;
+            border: 1px solid #CCC;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .back-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>注文登録</h1>
+
+        <form th:action="@{/enum/order/register}" method="post" th:object="${orderInfoForm}">
+            <!-- 合計金額入力 -->
+            <label for="totalPrice">合計金額</label>
+            <input type="text" id="totalPrice" name="totalPrice" placeholder="例：15000" required>
+
+            <!-- 注文ステータス選択 -->
+            <label for="statusCode">注文ステータスを選択してください</label>
+            <select id="statusCode" name="statusCode" required>
+                <option value="">-- 選択してください --</option>
+                <!-- th:value="${status.code}"で数値をセット -->
+                <option th:each="status : ${orderStatus}" 
+                        th:value="${status.code}" 
+                        th:text="${status.name}">
+                </option>
+            </select>
+
+            <div class="info">
+                💡 <strong>ステータスコード説明：</strong><br>
+                1 = 注文済み<br>
+                2 = 発送準備中<br>
+                3 = 発送完了
+            </div>
+
+            <!-- 送信ボタン -->
+            <input type="submit" value="登録">
+        </form>
+
+        <div class="back-link">
+            <a th:href="@{/enum/order/list}">← 注文一覧に戻る</a>
+        </div>
+    </div>
+</body>
+</html>

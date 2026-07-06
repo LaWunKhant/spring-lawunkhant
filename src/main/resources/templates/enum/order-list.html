@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注文一覧</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #CCC;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .btn {
+            padding: 5px 10px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+        .btn-register {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+        }
+        .status-ORDERED {
+            background-color: #2196F3;
+        }
+        .status-PREPARING {
+            background-color: #FF9800;
+        }
+        .status-SHIPPED {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>注文一覧</h1>
+
+        <!-- 成功メッセージ表示 -->
+        <div th:if="${successMessage}" class="message success" th:text="${successMessage}"></div>
+        <!-- エラーメッセージ表示 -->
+        <div th:if="${errorMessage}" class="message error" th:text="${errorMessage}"></div>
+
+        <!-- 登録ボタン -->
+        <a th:href="@{/enum/order/register}" class="btn btn-register">新規注文</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>合計金額</th>
+                    <th>ステータス</th>
+                    <th>注文日時</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${orders.size() > 0}" th:each="order : ${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.totalPrice} + '円'"></td>
+                    <!-- ステータスを直接表示（th:classappendで動的クラス付与） -->
+                    <td>
+                        <span class="status-badge" th:classappend="|status-${order.status}|" th:text="${order.status.name}"></span>
+                    </td>
+                    <!-- 注文日時 -->
+                    <td th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td>
+                        <a th:href="@{/enum/order/delete/{id}(id=${order.id})}" class="btn btn-delete">削除</a>
+                    </td>
+                </tr>
+                <tr th:if="${orders.size() == 0}">
+                    <td colspan="5" style="text-align: center;">登録されている注文はありません。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
