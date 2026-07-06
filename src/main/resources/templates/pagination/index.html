@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ページネーション</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 600px;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        .pagination {
+            display: flex;
+            align-items: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+        .pagination_item {
+            list-style: none;
+            margin-right: 10px;
+        }
+        .pagination_ItemLink {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: solid 2px black;
+            color: black;
+            font-weight: bold;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+        .pagination_ItemLink:not(.isActive):hover {
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+        .pagination_ItemLink.isActive {
+            background: black;
+            color: white;
+            pointer-events: none;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>ページネーション</h1>
+        
+        <table class="countryTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>国名</th>
+                    <th>人口（単位：百万人）</th>
+                    <th>地域</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="country : ${pages.content}">
+                    <td th:text="${country.id}"></td>
+                    <td th:text="${country.countryName}"></td>
+                    <td th:text="${country.population}"></td>
+                    <td th:text="${country.region}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ページネーション -->
+        <ul class="pagination">
+            <!-- 最初へボタン -->
+            <li th:if="${pages.hasPrevious()}" class="pagination_item">
+                <a th:href="@{/pagination(page=0)}" class="pagination_ItemLink">≪</a>
+            </li>
+
+            <!-- ページ番号 -->
+            <li th:each="num: ${#numbers.sequence(
+                            (pages.number > 0 ? pages.number - 1 : 0),
+                            (pages.number < pages.totalPages - 1 ? pages.number + 1 : pages.totalPages - 1))}" 
+                class="pagination_item">
+                <span th:if="${num}==${pages.number}" th:text="${num+1}" class="pagination_ItemLink isActive"></span>
+                <a th:if="${num}!=${pages.number}" th:href="@{/pagination(page=${num})}" th:text="${num+1}" class="pagination_ItemLink"></a>
+            </li>
+
+            <!-- 最後へボタン -->
+            <li th:if="${pages.hasNext()}" class="pagination_item">
+                <a th:href="@{/pagination(page=${pages.totalPages - 1})}" class="pagination_ItemLink">≫</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
